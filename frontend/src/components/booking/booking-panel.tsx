@@ -64,7 +64,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
       setStep('end');
     } else {
       if (startDate && isBefore(day, startDate)) {
-        // If user picks an end before start, swap
         setStartDate(day);
         setEndDate(undefined);
         setStep('end');
@@ -153,7 +152,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         <h2 className="text-lg font-bold text-foreground">Book This Service</h2>
       </div>
 
-      {/* Step indicator */}
       <div className="flex items-center gap-2 text-xs font-medium">
         <span className={`px-3 py-1 rounded-full transition-colors ${step === 'start' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : startDate ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'text-muted-foreground border border-border'}`}>
           1. Pick start date
@@ -164,7 +162,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         </span>
       </div>
 
-      {/* Calendar */}
       {isLoadingDates ? (
         <div className="flex items-center justify-center h-[350px]">
           <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
@@ -192,7 +189,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         </div>
       )}
 
-      {/* Legend */}
       <div className="flex items-center gap-4 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded-full bg-blue-500/20 border border-blue-500/30 inline-block" />
@@ -204,7 +200,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         </span>
       </div>
 
-      {/* Selection summary */}
       {startDate && (
         <div className="p-4 rounded-xl bg-muted/40 border border-border space-y-2 text-sm">
           <div className="flex justify-between">
@@ -235,7 +230,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         </div>
       )}
 
-      {/* Error message */}
       {errorMessage && (
         <div className="flex items-start gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
@@ -243,7 +237,6 @@ export function BookingPanel({ service, currentUser }: BookingPanelProps) {
         </div>
       )}
 
-      {/* Actions */}
       <div className="flex gap-3">
         {(startDate || endDate) && (
           <Button variant="outline" onClick={handleReset} className="flex-1" disabled={isPending}>

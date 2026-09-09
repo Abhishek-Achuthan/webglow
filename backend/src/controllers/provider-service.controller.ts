@@ -11,7 +11,6 @@ import { ListServicesQueryDto } from '../dtos/provider-service/list-services-que
 export function createProviderServiceRouter(service: ProviderServiceService): Router {
   const router = Router()
 
-  // POST / — Create service (PROVIDER)
   router.post(
     `/${ROUTES.PROVIDER_SERVICE.CREATE}`,
     jwtAuthMiddleware,
@@ -26,7 +25,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     },
   )
 
-  // GET /my — My services (PROVIDER)
   router.get(
     `/${ROUTES.PROVIDER_SERVICE.MY_SERVICES}`,
     jwtAuthMiddleware,
@@ -41,7 +39,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     },
   )
 
-  // GET /admin — Admin list (ADMIN)
   router.get(
     `/${ROUTES.PROVIDER_SERVICE.ADMIN}`,
     jwtAuthMiddleware,
@@ -56,7 +53,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     },
   )
 
-  // GET /browse — Browse public (no auth) — must be before /:id
   router.get(`/${ROUTES.PROVIDER_SERVICE.BROWSE}`, async (req, res, next) => {
     try {
       const data = await service.browseServices(req.query as unknown as ListServicesQueryDto)
@@ -66,7 +62,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     }
   })
 
-  // GET /browse/:id — Browse one public (no auth) — must be before /:id
   router.get(`/${ROUTES.PROVIDER_SERVICE.BROWSE_ONE}`, async (req, res, next) => {
     try {
       const { id } = req.params as { id: string }
@@ -77,7 +72,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     }
   })
 
-  // GET /:id — Get one (PROVIDER)
   router.get(
     `/${ROUTES.PROVIDER_SERVICE.GET_ONE}`,
     jwtAuthMiddleware,
@@ -93,7 +87,6 @@ export function createProviderServiceRouter(service: ProviderServiceService): Ro
     },
   )
 
-  // PATCH /:id — Update (PROVIDER)
   router.patch(
     `/${ROUTES.PROVIDER_SERVICE.UPDATE}`,
     jwtAuthMiddleware,

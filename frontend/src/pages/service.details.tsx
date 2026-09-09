@@ -59,7 +59,6 @@ export function ServiceDetailsPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Top Header / Breadcrumb */}
       <div className="border-b border-border bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <button
@@ -86,10 +85,8 @@ export function ServiceDetailsPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           
-          {/* Left Column: Core Info */}
           <div className="lg:col-span-7 xl:col-span-8 space-y-8">
             
-            {/* Title & Price Header */}
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight mb-3">
                 {service.title}
@@ -104,7 +101,6 @@ export function ServiceDetailsPage() {
 
             <hr className="border-border" />
 
-            {/* Description */}
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-foreground">About this service</h2>
               <div className="prose prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap text-[15px]">
@@ -114,7 +110,6 @@ export function ServiceDetailsPage() {
 
             <hr className="border-border" />
 
-            {/* Location */}
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-purple-500" />
@@ -143,7 +138,6 @@ export function ServiceDetailsPage() {
 
             <hr className="border-border" />
 
-            {/* Availability */}
             <section className="space-y-4">
               <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
                 <Clock className="w-5 h-5 text-amber-500" />
@@ -175,7 +169,6 @@ export function ServiceDetailsPage() {
               )}
             </section>
 
-            {/* Contact */}
             {service.contact && (
               <>
                 <hr className="border-border" />
@@ -199,7 +192,6 @@ export function ServiceDetailsPage() {
             )}
           </div>
 
-          {/* Right Column: Sticky Booking Panel */}
           <div className="lg:col-span-5 xl:col-span-4 mt-4 lg:mt-0">
             <div className="sticky top-24">
               <BookingPanel service={service} currentUser={currentUser} />

@@ -24,7 +24,6 @@ import { env } from './config/env'
 export function createApp(): express.Application {
   const app = express()
 
-  // Global middleware
   app.use(
     cors({
       origin: env.FRONTEND_URL,
@@ -34,7 +33,6 @@ export function createApp(): express.Application {
   app.use(express.json())
   app.use(cookieParser())
 
-  // Instantiate dependencies
   const encryptionService = new EncryptionService()
   const userRepository = new MongooseUserRepository(UserModel)
   const userService = new UserService(
@@ -53,12 +51,10 @@ export function createApp(): express.Application {
   const bookingService = new BookingService(bookingRepository, providerServiceService)
   const bookingRouter = createBookingRouter(bookingService)
 
-  // Mount routers
   app.use(`/${ROUTES.USER.BASE}`, userRouter)
   app.use(`/${ROUTES.PROVIDER_SERVICE.BASE}`, providerServiceRouter)
   app.use(`/${ROUTES.BOOKING.BASE}`, bookingRouter)
 
-  // Global error handler (4-arg — must be last)
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction): void => {
     if (err instanceof AppError) {
       sendResponse(res, err.statusCode, err.message, null)

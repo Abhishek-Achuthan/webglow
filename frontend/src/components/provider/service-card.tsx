@@ -14,7 +14,6 @@ export function ServiceCard({ service, readOnly = false }: ServiceCardProps) {
 
   return (
     <Card className="p-5 bg-card border-border flex flex-col gap-4 hover:border-blue-500/40 transition-all duration-200 hover:shadow-[0_0_20px_rgba(59,130,246,0.08)]">
-      {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-foreground text-base truncate">
@@ -35,7 +34,6 @@ export function ServiceCard({ service, readOnly = false }: ServiceCardProps) {
         </span>
       </div>
 
-      {/* Meta */}
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div className="flex items-center gap-1.5 text-muted-foreground">
           <Tag className="w-3.5 h-3.5 shrink-0 text-blue-400" />
@@ -65,7 +63,6 @@ export function ServiceCard({ service, readOnly = false }: ServiceCardProps) {
         </div>
       </div>
 
-      {/* Footer */}
       {!readOnly && (
         <div className="mt-2 pt-4 border-t border-border flex justify-end">
           <Link to="/provider/services/$serviceId/edit" params={{ serviceId: service._id }}>

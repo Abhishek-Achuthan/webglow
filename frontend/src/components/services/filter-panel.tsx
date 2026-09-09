@@ -80,7 +80,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         )}
       </div>
 
-      {/* Search */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           Search
@@ -100,7 +99,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         </div>
       </div>
 
-      {/* Category */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           Category
@@ -122,7 +120,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         </select>
       </div>
 
-      {/* Price Range */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           Price Range (₹/day)
@@ -159,7 +156,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         </div>
       </div>
 
-      {/* Location */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           Location
@@ -191,7 +187,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
         )}
       </div>
 
-      {/* Availability */}
       <div className="space-y-2">
         <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
           Availability
@@ -202,7 +197,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
               From
             </label>
             <Popover>
-              {/* @ts-expect-error asChild type issue */}
               <PopoverTrigger asChild>
                 <Button
                   id="filter-available-from"
@@ -246,7 +240,6 @@ export function FilterPanel({ filters, onFiltersChange }: FilterPanelProps) {
               To
             </label>
             <Popover>
-              {/* @ts-expect-error asChild type issue */}
               <PopoverTrigger asChild>
                 <Button
                   id="filter-available-to"

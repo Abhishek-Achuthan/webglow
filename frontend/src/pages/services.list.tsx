@@ -24,7 +24,6 @@ export function ServicesListPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Hero */}
       <div className="border-b border-border bg-gradient-to-br from-background via-blue-950/10 to-background">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="flex items-center gap-2 text-blue-400 text-sm font-medium mb-3">
@@ -47,7 +46,6 @@ export function ServicesListPage() {
         </div>
       </div>
 
-      {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         {isError && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm">

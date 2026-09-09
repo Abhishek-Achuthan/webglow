@@ -58,7 +58,6 @@ export function ServiceList({
         ))}
       </div>
 
-      {/* Infinite scroll sentinel */}
       <div ref={sentinelRef} className="py-4 flex justify-center">
         {isFetchingNextPage && (
           <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />

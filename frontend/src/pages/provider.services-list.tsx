@@ -35,7 +35,6 @@ export function ProviderServicesListPage() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-muted-foreground text-sm mb-1">
@@ -62,7 +61,6 @@ export function ProviderServicesListPage() {
         </Link>
       </div>
 
-      {/* Search Bar */}
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
         <input

@@ -1,6 +1,6 @@
 export interface ServiceLocation {
   type: string;
-  coordinates: number[]; // [longitude, latitude]
+  coordinates: number[];
   address?: string;
   city?: string;
   state?: string;

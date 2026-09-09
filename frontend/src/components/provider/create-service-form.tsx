@@ -27,7 +27,6 @@ export function CreateServiceForm() {
   } = useCreateProviderService();
 
   const methods = useForm<CreateProviderServiceFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(CreateProviderServiceSchema) as any,
     defaultValues: {
       title: "",

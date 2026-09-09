@@ -35,7 +35,6 @@ export function BookingCard({ booking, onCancel, isCancelling }: BookingCardProp
 
   return (
     <div className="bg-card rounded-2xl border border-border p-5 space-y-4 hover:border-blue-500/30 transition-colors">
-      {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h3 className="font-bold text-foreground text-base truncate">{serviceTitle}</h3>
@@ -48,7 +47,6 @@ export function BookingCard({ booking, onCancel, isCancelling }: BookingCardProp
         </span>
       </div>
 
-      {/* Dates */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Calendar className="w-4 h-4 shrink-0" />
         <span>
@@ -56,7 +54,6 @@ export function BookingCard({ booking, onCancel, isCancelling }: BookingCardProp
         </span>
       </div>
 
-      {/* Duration + Price */}
       <div className="flex items-center gap-4 text-sm">
         <div className="flex items-center gap-1.5 text-muted-foreground">
           <Clock className="w-4 h-4" />
@@ -71,7 +68,6 @@ export function BookingCard({ booking, onCancel, isCancelling }: BookingCardProp
         </span>
       </div>
 
-      {/* Cancel action */}
       {canCancel && onCancel && (
         <div className="pt-2 border-t border-border">
           <Button

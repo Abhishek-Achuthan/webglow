@@ -6,7 +6,6 @@ import { Search, Loader2 } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 
-// Fix for default marker icon in react-leaflet
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -32,7 +31,6 @@ interface InteractiveMapProps {
   onLocationSelect: (location: MapLocation) => void;
 }
 
-// Component to handle map clicks and marker updates
 function MapClickHandler({
   position,
   setPosition,
@@ -84,7 +82,6 @@ async function reverseGeocode(
       const state = addressComponents.state || "";
       const zipCode = addressComponents.postcode || "";
 
-      // Attempt to build a street address
       const road = addressComponents.road || "";
       const houseNumber = addressComponents.house_number || "";
       const address = [houseNumber, road].filter(Boolean).join(" ");

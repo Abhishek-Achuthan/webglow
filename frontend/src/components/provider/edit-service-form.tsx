@@ -46,7 +46,6 @@ export function EditServiceForm({ serviceId }: EditServiceFormProps) {
   } = useUpdateProviderService(serviceId);
 
   const methods = useForm<UpdateProviderServiceFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(UpdateProviderServiceSchema) as any,
     defaultValues: {
       title: '',
@@ -71,7 +70,6 @@ export function EditServiceForm({ serviceId }: EditServiceFormProps) {
 
     methods.reset({
       title: service.title,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       category: service.category as any,
       pricePerDay: service.pricePerDay,
       description: service.description,

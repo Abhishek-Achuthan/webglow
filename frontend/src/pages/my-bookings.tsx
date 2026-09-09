@@ -60,7 +60,6 @@ export function MyBookingsPage() {
 
   return (
     <div className="min-h-screen bg-background/50">
-      {/* Header */}
       <div className="relative border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-500/10 rounded-full blur-[80px]" />
@@ -83,7 +82,6 @@ export function MyBookingsPage() {
       </div>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
           {tabs.map((tab) => {
             const count = filterBookings(bookings, tab.value).length;
@@ -110,7 +108,6 @@ export function MyBookingsPage() {
           })}
         </div>
 
-        {/* Bookings Grid */}
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">

@@ -12,8 +12,6 @@ export class ProviderServiceService {
   constructor(private readonly _providerServiceRepo: ProviderServiceRepository) {}
 
   async createService(dto: unknown, providerId: string): Promise<IProviderService> {
-    // Let ZodError bubble up to the global error handler (returns 400 with field details).
-    // Only catch unexpected persistence errors here.
     const parsed = createProviderServiceSchema.parse(dto)
     const { availability, ...rest } = parsed
 
@@ -49,10 +47,8 @@ export class ProviderServiceService {
   }
 
   async updateService(id: string, providerId: string, dto: unknown): Promise<IProviderService> {
-    // Let ZodError bubble to global error handler
     const parsed = updateProviderServiceSchema.parse(dto)
 
-    // Let AppError (403/404) bubble from ownership check
     await this.getServiceById(id, providerId)
 
     const { availability, ...rest } = parsed

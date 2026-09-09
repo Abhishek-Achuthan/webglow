@@ -38,7 +38,6 @@ export const useCreateBooking = () => {
       return response.data.data;
     },
     onSuccess: (_data, variables) => {
-      // Invalidate available dates and user bookings after a new booking
       queryClient.invalidateQueries({ queryKey: ['available-dates', variables.serviceId] });
       queryClient.invalidateQueries({ queryKey: ['my-bookings'] });
     },

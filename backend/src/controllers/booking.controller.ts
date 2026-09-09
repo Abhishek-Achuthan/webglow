@@ -10,7 +10,6 @@ import { ROLES } from '../constants/roles.constant'
 export function createBookingRouter(service: BookingService): Router {
   const router = Router()
 
-  // POST / — Create booking (USER)
   router.post(
     `/${ROUTES.BOOKING.CREATE}`,
     jwtAuthMiddleware,
@@ -25,7 +24,6 @@ export function createBookingRouter(service: BookingService): Router {
     },
   )
 
-  // GET /my — My bookings (USER) — must be before /:id patterns
   router.get(
     `/${ROUTES.BOOKING.MY_BOOKINGS}`,
     jwtAuthMiddleware,
@@ -42,7 +40,6 @@ export function createBookingRouter(service: BookingService): Router {
     },
   )
 
-  // GET /available-dates/:serviceId — Public, no auth — must be before /:id patterns
   router.get(`/${ROUTES.BOOKING.AVAILABLE_DATES}`, async (req, res, next) => {
     try {
       const { serviceId } = req.params as { serviceId: string }
@@ -53,7 +50,6 @@ export function createBookingRouter(service: BookingService): Router {
     }
   })
 
-  // GET /provider — Provider bookings (PROVIDER) — must be before /:id patterns
   router.get(
     `/${ROUTES.BOOKING.PROVIDER_BOOKINGS}`,
     jwtAuthMiddleware,
@@ -70,7 +66,6 @@ export function createBookingRouter(service: BookingService): Router {
     },
   )
 
-  // GET /admin — Admin bookings (ADMIN) — must be before /:id patterns
   router.get(
     `/${ROUTES.BOOKING.ADMIN_BOOKINGS}`,
     jwtAuthMiddleware,
@@ -87,7 +82,6 @@ export function createBookingRouter(service: BookingService): Router {
     },
   )
 
-  // PATCH /:id/cancel — Cancel booking (USER)
   router.patch(
     `/${ROUTES.BOOKING.CANCEL}`,
     jwtAuthMiddleware,

@@ -31,7 +31,6 @@ export function ProviderBookingsPage() {
 
   return (
     <div className="min-h-screen bg-background/50">
-      {/* Header */}
       <div className="relative border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-20 -left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-[80px]" />

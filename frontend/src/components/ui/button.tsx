@@ -20,7 +20,7 @@ function Button({
 }: ButtonProps) {
   const handlePointerDown: ButtonProps["onPointerDown"] = (e) => {
     if (!noVibrate && typeof navigator !== "undefined" && navigator.vibrate) {
-      navigator.vibrate(50) // 50ms haptic feedback
+      navigator.vibrate(50)
     }
     if (onPointerDown) {
       onPointerDown(e)

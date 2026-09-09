@@ -16,11 +16,9 @@ export function LocationSection() {
     state?: string;
     zipCode?: string;
   }) => {
-    // Update coordinates
     setValue("location.coordinates.0", location.lng, { shouldValidate: true });
     setValue("location.coordinates.1", location.lat, { shouldValidate: true });
     
-    // Auto-fill other fields if provided from reverse geocoding
     if (location.address) setValue("location.address", location.address, { shouldDirty: true });
     if (location.city) setValue("location.city", location.city, { shouldDirty: true });
     if (location.state) setValue("location.state", location.state, { shouldDirty: true });
@@ -40,7 +38,6 @@ export function LocationSection() {
         </div>
       </div>
 
-      {/* Interactive Map */}
       <InteractiveMap onLocationSelect={handleLocationSelect} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -80,7 +77,6 @@ export function LocationSection() {
           />
         </div>
 
-        {/* Hidden coordinates for now - usually set via geocoding */}
         <input
           type="hidden"
           {...register("location.coordinates.0")}
