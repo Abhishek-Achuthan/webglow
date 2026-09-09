@@ -23,9 +23,9 @@ export function UserNavbar() {
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-            W
+            E
           </div>
-          <span className="font-bold text-xl tracking-tight text-foreground">WebGlow</span>
+          <span className="font-bold text-xl tracking-tight text-foreground">EventPulse</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">

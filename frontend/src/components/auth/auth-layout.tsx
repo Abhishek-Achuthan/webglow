@@ -14,8 +14,8 @@ export function AuthLayout({
   reverse = false,
 }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 p-4 sm:p-8">
-      <div className="flex w-full max-w-5xl flex-col md:flex-row bg-white rounded-[2rem] shadow-xl border border-gray-100 p-2 md:p-3">
+    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4 sm:p-8">
+      <div className="flex w-full max-w-5xl flex-col md:flex-row bg-card text-card-foreground rounded-[2rem] shadow-2xl border border-border p-2 md:p-3">
         <div
           className={`flex w-full flex-col justify-center p-6 sm:p-10 md:w-1/2 lg:p-12 ${
             reverse ? 'md:order-last' : 'md:order-first'
@@ -24,9 +24,9 @@ export function AuthLayout({
           <div className="mx-auto w-full max-w-sm">
             <div className="mb-10 flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold shadow-sm">
-                W
+                E
               </div>
-              <span className="text-xl font-bold tracking-tight text-gray-800">WebGlow</span>
+              <span className="text-xl font-bold tracking-tight text-foreground">EventPulse</span>
             </div>
 
             {children}

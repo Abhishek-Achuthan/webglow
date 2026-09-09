@@ -1,7 +1,7 @@
 {
-  "name": "webglow-nodejs",
+  "name": "eventpulse-backend",
   "version": "1.0.0",
-  "description": "WebGlow API — pure Node.js + Express + Mongoose",
+  "description": "EventPulse API — pure Node.js + Express + Mongoose",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
