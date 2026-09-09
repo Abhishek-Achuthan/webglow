@@ -3,22 +3,23 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { ZodError } from 'zod'
 
-import { UserModel } from './user/schema/user.schema'
-import { MongooseUserRepository } from './user/repository/mongoose-user.repository'
-import { EncryptionService } from './common/encryption/encryption.service'
-import { UserService } from './user/user.service'
-import { createUserRouter } from './user/user.controller'
-import { ProviderServiceModel } from './provider-service/schema/provider-service.schema'
-import { MongooseProviderServiceRepository } from './provider-service/repository/mongoose-provider-service.repository'
-import { ProviderServiceService } from './provider-service/provider-service.service'
-import { createProviderServiceRouter } from './provider-service/provider-service.controller'
-import { BookingModel } from './booking/schema/booking.schema'
-import { MongooseBookingRepository } from './booking/repository/mongoose-booking.repository'
-import { BookingService } from './booking/booking.service'
-import { createBookingRouter } from './booking/booking.controller'
-import { AppError } from './common/errors/AppError'
-import { sendResponse } from './common/helpers/response.helper'
-import { ROUTES } from './common/constants/routes.constant'
+import { UserModel } from './models/user.model'
+import { MongooseUserRepository } from './repositories/user.repository'
+import { EncryptionService } from './services/encryption.service'
+import { UserService } from './services/user.service'
+import { createUserRouter } from './controllers/user.controller'
+import { ProviderServiceModel } from './models/provider-service.model'
+import { MongooseProviderServiceRepository } from './repositories/provider-service.repository'
+import { ProviderServiceService } from './services/provider-service.service'
+import { createProviderServiceRouter } from './controllers/provider-service.controller'
+import { BookingModel } from './models/booking.model'
+import { MongooseBookingRepository } from './repositories/booking.repository'
+import { BookingService } from './services/booking.service'
+import { createBookingRouter } from './controllers/booking.controller'
+import { AppError } from './errors/AppError'
+import { sendResponse } from './helpers/response.helper'
+import { ROUTES } from './constants/routes.constant'
+import { env } from './config/env'
 
 export function createApp(): express.Application {
   const app = express()
@@ -26,7 +27,7 @@ export function createApp(): express.Application {
   // Global middleware
   app.use(
     cors({
-      origin: process.env.FRONTEND_URL,
+      origin: env.FRONTEND_URL,
       credentials: true,
     }),
   )
@@ -39,8 +40,8 @@ export function createApp(): express.Application {
   const userService = new UserService(
     userRepository,
     encryptionService,
-    process.env.JWT_ACCESS_SECRET ?? '',
-    process.env.JWT_REFRESH_SECRET ?? '',
+    env.JWT_ACCESS_SECRET,
+    env.JWT_REFRESH_SECRET,
   )
   const userRouter = createUserRouter(userService)
 
