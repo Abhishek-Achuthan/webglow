@@ -1,24 +1,23 @@
-import { Router } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../services/user.service'
 import { sendResponse } from '../helpers/response.helper'
 import { RESPONSE_MESSAGES } from '../constants/response-messages.constant'
-import { ROUTES } from '../constants/routes.constant'
 
-export function createUserRouter(userService: UserService): Router {
-  const router = Router()
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
-  router.post(`/${ROUTES.USER.REGISTER}`, async (req, res, next) => {
+  register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await userService.register(req.body)
+      const data = await this.userService.register(req.body)
       sendResponse(res, 201, RESPONSE_MESSAGES.USER.REGISTER_SUCCESS, data)
     } catch (err) {
       next(err)
     }
-  })
+  }
 
-  router.post(`/${ROUTES.USER.LOGIN}`, async (req, res, next) => {
+  login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const { user, accessToken, refreshToken } = await userService.login(req.body)
+      const { user, accessToken, refreshToken } = await this.userService.login(req.body)
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -29,12 +28,12 @@ export function createUserRouter(userService: UserService): Router {
     } catch (err) {
       next(err)
     }
-  })
+  }
 
-  router.post(`/${ROUTES.USER.REFRESH_TOKEN}`, async (req, res, next) => {
+  refreshToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const refreshTokenCookie = req.cookies?.refresh_token
-      const { accessToken, refreshToken } = await userService.refreshToken(refreshTokenCookie)
+      const { accessToken, refreshToken } = await this.userService.refreshToken(refreshTokenCookie)
       res.cookie('refresh_token', refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -45,7 +44,5 @@ export function createUserRouter(userService: UserService): Router {
     } catch (err) {
       next(err)
     }
-  })
-
-  return router
+  }
 }

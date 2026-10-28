@@ -7,15 +7,18 @@ import { UserModel } from './models/user.model'
 import { MongooseUserRepository } from './repositories/user.repository'
 import { EncryptionService } from './services/encryption.service'
 import { UserService } from './services/user.service'
-import { createUserRouter } from './controllers/user.controller'
+import { UserController } from './controllers/user.controller'
+import { createUserRouter } from './routes/user.routes'
 import { ProviderServiceModel } from './models/provider-service.model'
 import { MongooseProviderServiceRepository } from './repositories/provider-service.repository'
 import { ProviderServiceService } from './services/provider-service.service'
-import { createProviderServiceRouter } from './controllers/provider-service.controller'
+import { ProviderServiceController } from './controllers/provider-service.controller'
+import { createProviderServiceRouter } from './routes/provider-service.routes'
 import { BookingModel } from './models/booking.model'
 import { MongooseBookingRepository } from './repositories/booking.repository'
 import { BookingService } from './services/booking.service'
-import { createBookingRouter } from './controllers/booking.controller'
+import { BookingController } from './controllers/booking.controller'
+import { createBookingRouter } from './routes/booking.routes'
 import { AppError } from './errors/AppError'
 import { sendResponse } from './helpers/response.helper'
 import { ROUTES } from './constants/routes.constant'
@@ -41,15 +44,18 @@ export function createApp(): express.Application {
     env.JWT_ACCESS_SECRET,
     env.JWT_REFRESH_SECRET,
   )
-  const userRouter = createUserRouter(userService)
+  const userController = new UserController(userService)
+  const userRouter = createUserRouter(userController)
 
   const providerServiceRepository = new MongooseProviderServiceRepository(ProviderServiceModel)
   const providerServiceService = new ProviderServiceService(providerServiceRepository)
-  const providerServiceRouter = createProviderServiceRouter(providerServiceService)
+  const providerServiceController = new ProviderServiceController(providerServiceService)
+  const providerServiceRouter = createProviderServiceRouter(providerServiceController)
 
   const bookingRepository = new MongooseBookingRepository(BookingModel)
   const bookingService = new BookingService(bookingRepository, providerServiceService)
-  const bookingRouter = createBookingRouter(bookingService)
+  const bookingController = new BookingController(bookingService)
+  const bookingRouter = createBookingRouter(bookingController)
 
   app.use(`/${ROUTES.USER.BASE}`, userRouter)
   app.use(`/${ROUTES.PROVIDER_SERVICE.BASE}`, providerServiceRouter)
@@ -69,7 +75,7 @@ export function createApp(): express.Application {
 
     const message =
       process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
-    sendResponse(res, 500, message, null)
+      sendResponse(res, 500, message, null)
   })
 
   return app
