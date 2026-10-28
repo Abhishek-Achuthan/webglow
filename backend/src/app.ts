@@ -1,24 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import { ZodError } from 'zod'
+import { z } from 'zod'
 
-import { UserModel } from './models/user.model'
-import { MongooseUserRepository } from './repositories/user.repository'
-import { EncryptionService } from './services/encryption.service'
-import { UserService } from './services/user.service'
-import { UserController } from './controllers/user.controller'
-import { createUserRouter } from './routes/user.routes'
-import { ProviderServiceModel } from './models/provider-service.model'
-import { MongooseProviderServiceRepository } from './repositories/provider-service.repository'
-import { ProviderServiceService } from './services/provider-service.service'
-import { ProviderServiceController } from './controllers/provider-service.controller'
-import { createProviderServiceRouter } from './routes/provider-service.routes'
-import { BookingModel } from './models/booking.model'
-import { MongooseBookingRepository } from './repositories/booking.repository'
-import { BookingService } from './services/booking.service'
-import { BookingController } from './controllers/booking.controller'
-import { createBookingRouter } from './routes/booking.routes'
+import userRouter from './routes/user.routes'
+import providerServiceRouter from './routes/provider-service.routes'
+import bookingRouter from './routes/booking.routes'
 import { AppError } from './errors/AppError'
 import { sendResponse } from './helpers/response.helper'
 import { ROUTES } from './constants/routes.constant'
@@ -36,27 +23,6 @@ export function createApp(): express.Application {
   app.use(express.json())
   app.use(cookieParser())
 
-  const encryptionService = new EncryptionService()
-  const userRepository = new MongooseUserRepository(UserModel)
-  const userService = new UserService(
-    userRepository,
-    encryptionService,
-    env.JWT_ACCESS_SECRET,
-    env.JWT_REFRESH_SECRET,
-  )
-  const userController = new UserController(userService)
-  const userRouter = createUserRouter(userController)
-
-  const providerServiceRepository = new MongooseProviderServiceRepository(ProviderServiceModel)
-  const providerServiceService = new ProviderServiceService(providerServiceRepository)
-  const providerServiceController = new ProviderServiceController(providerServiceService)
-  const providerServiceRouter = createProviderServiceRouter(providerServiceController)
-
-  const bookingRepository = new MongooseBookingRepository(BookingModel)
-  const bookingService = new BookingService(bookingRepository, providerServiceService)
-  const bookingController = new BookingController(bookingService)
-  const bookingRouter = createBookingRouter(bookingController)
-
   app.use(`/${ROUTES.USER.BASE}`, userRouter)
   app.use(`/${ROUTES.PROVIDER_SERVICE.BASE}`, providerServiceRouter)
   app.use(`/${ROUTES.BOOKING.BASE}`, bookingRouter)
@@ -67,15 +33,15 @@ export function createApp(): express.Application {
       return
     }
 
-    if (err instanceof ZodError) {
-      const message = err.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')
+    if (err instanceof z.ZodError) {
+      const message = err.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')
       sendResponse(res, 400, message, null)
       return
     }
 
     const message =
       process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
-      sendResponse(res, 500, message, null)
+    sendResponse(res, 500, message, null)
   })
 
   return app
