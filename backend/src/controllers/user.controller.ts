@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { UserService } from '../services/user.service'
 import { sendResponse } from '../helpers/response.helper'
 import { RESPONSE_MESSAGES } from '../constants/response-messages.constant'
+import { HTTP_STATUS } from '../constants/http-status.constant'
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -9,7 +10,7 @@ export class UserController {
   register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const data = await this.userService.register(req.body)
-      sendResponse(res, 201, RESPONSE_MESSAGES.USER.REGISTER_SUCCESS, data)
+      sendResponse(res, HTTP_STATUS.CREATED, RESPONSE_MESSAGES.USER.REGISTER_SUCCESS, data)
     } catch (err) {
       next(err)
     }
@@ -24,7 +25,7 @@ export class UserController {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      sendResponse(res, 200, RESPONSE_MESSAGES.USER.LOGIN_SUCCESS, { user, accessToken })
+      sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.USER.LOGIN_SUCCESS, { user, accessToken })
     } catch (err) {
       next(err)
     }
@@ -40,7 +41,7 @@ export class UserController {
         sameSite: 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      sendResponse(res, 200, RESPONSE_MESSAGES.USER.REFRESH_TOKEN_SUCCESS, { accessToken })
+      sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.USER.REFRESH_TOKEN_SUCCESS, { accessToken })
     } catch (err) {
       next(err)
     }

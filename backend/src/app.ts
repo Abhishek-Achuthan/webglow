@@ -10,6 +10,7 @@ import { AppError } from './errors/AppError'
 import { sendResponse } from './helpers/response.helper'
 import { ROUTES } from './constants/routes.constant'
 import { env } from './config/env'
+import { HTTP_STATUS } from './constants/http-status.constant'
 
 export function createApp(): express.Application {
   const app = express()
@@ -35,13 +36,13 @@ export function createApp(): express.Application {
 
     if (err instanceof z.ZodError) {
       const message = err.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')
-      sendResponse(res, 400, message, null)
+      sendResponse(res, HTTP_STATUS.BAD_REQUEST, message, null)
       return
     }
 
     const message =
       process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
-    sendResponse(res, 500, message, null)
+    sendResponse(res, HTTP_STATUS.INTERNAL_SERVER_ERROR, message, null)
   })
 
   return app
