@@ -10,6 +10,8 @@ const envSchema = z.object({
   JWT_REFRESH_SECRET: z.string().min(1, 'JWT_REFRESH_SECRET is required'),
   FRONTEND_URL: z.string().min(1, 'FRONTEND_URL is required'),
   PORT: z.string().optional(),
+  COOKIE_MAX_AGE: z.string().optional(),
+  REFRESH_TOKEN_COOKIE_MAX_AGE: z.string().optional(),
 })
 
 const parsed = envSchema.safeParse(process.env)
@@ -18,5 +20,16 @@ if (!parsed.success) {
   process.exit(1)
 }
 
-export const env = parsed.data
+const rawEnv = parsed.data
+const defaultCookieMaxAge = 7 * 24 * 60 * 60 * 1000 // 7 days in ms
+
+export const env = {
+  ...rawEnv,
+  COOKIE_MAX_AGE: rawEnv.REFRESH_TOKEN_COOKIE_MAX_AGE
+    ? parseInt(rawEnv.REFRESH_TOKEN_COOKIE_MAX_AGE, 10)
+    : rawEnv.COOKIE_MAX_AGE
+      ? parseInt(rawEnv.COOKIE_MAX_AGE, 10)
+      : defaultCookieMaxAge,
+}
+
 export const PORT = env.PORT ? parseInt(env.PORT, 10) : 3000

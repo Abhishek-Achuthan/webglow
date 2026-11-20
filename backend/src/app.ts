@@ -24,9 +24,10 @@ export function createApp(): express.Application {
   app.use(express.json())
   app.use(cookieParser())
 
-  app.use(`/${ROUTES.USER.BASE}`, userRouter)
-  app.use(`/${ROUTES.PROVIDER_SERVICE.BASE}`, providerServiceRouter)
-  app.use(`/${ROUTES.BOOKING.BASE}`, bookingRouter)
+  const formatRoute = (base: string) => (base.startsWith('/') ? base : `/${base}`)
+  app.use(formatRoute(ROUTES.USER.BASE), userRouter)
+  app.use(formatRoute(ROUTES.PROVIDER_SERVICE.BASE), providerServiceRouter)
+  app.use(formatRoute(ROUTES.BOOKING.BASE), bookingRouter)
 
   app.use((err: Error, _req: Request, res: Response, _next: NextFunction): void => {
     if (err instanceof AppError) {
