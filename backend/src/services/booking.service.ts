@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { BookingRepository } from '../interfaces/IBookingRepository'
+import { IBookingRepository } from '../interfaces/IBookingRepository'
 import { BookingStatus } from '../models/booking.model'
 import { CreateBookingDto } from '../dtos/booking/create-booking.dto'
 import {
@@ -15,7 +15,7 @@ import type { IBookingService, AvailableDatesResult } from '../interfaces/servic
 
 export class BookingService implements IBookingService {
   constructor(
-    private readonly _bookingRepo: BookingRepository,
+    private readonly _bookingRepo: IBookingRepository,
     private readonly _providerServiceService: IProviderServiceService,
   ) {}
 

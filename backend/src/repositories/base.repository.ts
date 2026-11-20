@@ -1,35 +1,33 @@
-import { Model } from 'mongoose';
-import { BaseRepository } from '../interfaces/IBaseRepository';
+import { Model } from 'mongoose'
+import { IBaseRepository } from '../interfaces/IBaseRepository'
 
-export abstract class MongooseBaseRepository<T> extends BaseRepository<T> {
-  constructor(protected readonly model: Model<T>) {
-    super();
-  }
+export abstract class MongooseBaseRepository<T> implements IBaseRepository<T> {
+  constructor(protected readonly model: Model<T>) {}
 
   async findById(id: string): Promise<T | null> {
-    return (await this.model.findById(id).exec()) as T | null;
+    return (await this.model.findById(id).exec()) as T | null
   }
 
   async findAll(): Promise<T[]> {
-    return (await this.model.find({}).exec()) as T[];
+    return (await this.model.find({}).exec()) as T[]
   }
 
   async create(data: Partial<T>): Promise<T> {
-    const [createdEntity] = await this.model.create([data]);
-    return createdEntity as T;
+    const [createdEntity] = await this.model.create([data])
+    return createdEntity as T
   }
 
   async update(id: string, data: Partial<T>): Promise<T | null> {
-    const document = await this.model.findById(id);
+    const document = await this.model.findById(id)
     if (!document) {
-      return null;
+      return null
     }
-    document.set(data);
-    return (await document.save()) as T;
+    document.set(data)
+    return (await document.save()) as T
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await this.model.findByIdAndDelete(id).exec();
-    return result !== null;
+    const result = await this.model.findByIdAndDelete(id).exec()
+    return result !== null
   }
 }

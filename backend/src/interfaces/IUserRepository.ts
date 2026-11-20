@@ -1,7 +1,9 @@
-import { BaseRepository } from './IBaseRepository';
-import { IUser } from '../models/user.model';
+import { IBaseRepository } from './IBaseRepository'
+import { IUser } from '../models/user.model'
 
-export abstract class UserRepository extends BaseRepository<IUser> {
-  abstract findByEmail(email: string): Promise<IUser | null>;
-  abstract findByUsername(username: string): Promise<IUser | null>;
+export interface IUserRepository extends IBaseRepository<IUser> {
+  findByEmail(email: string): Promise<IUser | null>
+  findByUsername(username: string): Promise<IUser | null>
 }
+
+export type UserRepository = IUserRepository

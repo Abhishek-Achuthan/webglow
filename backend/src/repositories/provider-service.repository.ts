@@ -1,12 +1,12 @@
 import { Model, Types } from 'mongoose'
-import { ProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
+import { IProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
 import { MongooseBaseRepository } from './base.repository'
 import { IProviderService, ProviderServiceDocument } from '../models/provider-service.model'
 import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/IPagination'
 
 export class MongooseProviderServiceRepository
   extends MongooseBaseRepository<ProviderServiceDocument>
-  implements ProviderServiceRepository
+  implements IProviderServiceRepository
 {
   constructor(protected readonly model: Model<ProviderServiceDocument>) {
     super(model)

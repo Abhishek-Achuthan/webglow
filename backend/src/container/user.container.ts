@@ -1,5 +1,5 @@
 import { UserModel } from '../models/user.model'
-import { UserRepository } from '../interfaces/IUserRepository'
+import { IUserRepository } from '../interfaces/IUserRepository'
 import { MongooseUserRepository } from '../repositories/user.repository'
 import { IEncryptionService } from '../interfaces/services/IEncryptionService'
 import { EncryptionService } from '../services/encryption.service'
@@ -9,7 +9,7 @@ import { UserController } from '../controllers/user.controller'
 import { env } from '../config/env'
 
 export interface UserDependencies {
-  userRepository: UserRepository
+  userRepository: IUserRepository
   encryptionService: IEncryptionService
   userService: IUserService
   userController: UserController
@@ -17,7 +17,7 @@ export interface UserDependencies {
 
 export function createUserContainer(): UserDependencies {
   const encryptionService: IEncryptionService = new EncryptionService()
-  const userRepository: UserRepository = new MongooseUserRepository(UserModel)
+  const userRepository: IUserRepository = new MongooseUserRepository(UserModel)
   const userService: IUserService = new UserService(
     userRepository,
     encryptionService,

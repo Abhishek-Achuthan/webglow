@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { UserRepository } from '../interfaces/IUserRepository'
+import { IUserRepository } from '../interfaces/IUserRepository'
 import { IEncryptionService } from '../interfaces/services/IEncryptionService'
 import { RegisterUserDto } from '../dtos/user/register-user.dto'
 import { LoginUserDto } from '../dtos/user/login-user.dto'
@@ -11,7 +11,7 @@ import { IUserService, LoginResult, AuthTokens } from '../interfaces/services/IU
 
 export class UserService implements IUserService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: IUserRepository,
     private readonly encryptionService: IEncryptionService,
     private readonly jwtAccessSecret: string,
     private readonly jwtRefreshSecret: string,

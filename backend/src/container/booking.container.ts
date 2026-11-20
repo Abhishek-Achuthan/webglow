@@ -1,5 +1,5 @@
 import { BookingModel } from '../models/booking.model'
-import { BookingRepository } from '../interfaces/IBookingRepository'
+import { IBookingRepository } from '../interfaces/IBookingRepository'
 import { MongooseBookingRepository } from '../repositories/booking.repository'
 import { IBookingService } from '../interfaces/services/IBookingService'
 import { BookingService } from '../services/booking.service'
@@ -7,7 +7,7 @@ import { BookingController } from '../controllers/booking.controller'
 import { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 
 export interface BookingDependencies {
-  bookingRepository: BookingRepository
+  bookingRepository: IBookingRepository
   bookingService: IBookingService
   bookingController: BookingController
 }
@@ -15,7 +15,7 @@ export interface BookingDependencies {
 export function createBookingContainer(
   providerServiceService: IProviderServiceService,
 ): BookingDependencies {
-  const bookingRepository: BookingRepository = new MongooseBookingRepository(BookingModel)
+  const bookingRepository: IBookingRepository = new MongooseBookingRepository(BookingModel)
   const bookingService: IBookingService = new BookingService(
     bookingRepository,
     providerServiceService,

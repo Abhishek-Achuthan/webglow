@@ -1,11 +1,11 @@
 import { Model } from 'mongoose';
 import { IUser, UserDocument } from '../models/user.model';
-import { UserRepository } from '../interfaces/IUserRepository';
+import { IUserRepository } from '../interfaces/IUserRepository';
 import { MongooseBaseRepository } from './base.repository';
 
 export class MongooseUserRepository
   extends MongooseBaseRepository<UserDocument>
-  implements UserRepository
+  implements IUserRepository
 {
   constructor(model: Model<UserDocument>) {
     super(model);

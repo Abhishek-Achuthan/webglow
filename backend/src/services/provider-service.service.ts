@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { ProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
+import { IProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
 import { IProviderService } from '../models/provider-service.model'
 import { CreateProviderServiceDto } from '../dtos/provider-service/create-provider-service.dto'
 import { UpdateProviderServiceDto } from '../dtos/provider-service/update-provider-service.dto'
@@ -15,7 +15,7 @@ import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/IPagin
 import type { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 
 export class ProviderServiceService implements IProviderServiceService {
-  constructor(private readonly _providerServiceRepo: ProviderServiceRepository) {}
+  constructor(private readonly _providerServiceRepo: IProviderServiceRepository) {}
 
   async createService(
     dto: CreateProviderServiceDto,

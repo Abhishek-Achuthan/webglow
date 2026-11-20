@@ -1,8 +1,8 @@
 import { Model, Types } from 'mongoose'
 import { IBooking, BookingDocument, BookingStatus } from '../models/booking.model'
-import { BookingRepository } from '../interfaces/IBookingRepository'
+import { IBookingRepository } from '../interfaces/IBookingRepository'
 
-export class MongooseBookingRepository implements BookingRepository {
+export class MongooseBookingRepository implements IBookingRepository {
   constructor(private readonly _bookingModel: Model<BookingDocument>) {}
 
   async create(data: Partial<IBooking>): Promise<BookingDocument> {
