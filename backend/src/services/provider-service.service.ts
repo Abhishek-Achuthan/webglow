@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { ProviderServiceRepository } from '../interfaces/iprovider-service.repository'
+import { ProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
 import { IProviderService } from '../models/provider-service.model'
 import { CreateProviderServiceDto } from '../dtos/provider-service/create-provider-service.dto'
 import { UpdateProviderServiceDto } from '../dtos/provider-service/update-provider-service.dto'
@@ -11,7 +11,7 @@ import {
 } from '../dtos/provider-service/provider-service-response.dto'
 import { AppError } from '../errors/AppError'
 import { ERRORS } from '../constants/errors.constant'
-import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/ipagination'
+import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/IPagination'
 import type { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 
 export class ProviderServiceService implements IProviderServiceService {

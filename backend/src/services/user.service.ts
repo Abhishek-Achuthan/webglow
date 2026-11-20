@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { UserRepository } from '../interfaces/iuser.repository'
+import { UserRepository } from '../interfaces/IUserRepository'
 import { IEncryptionService } from '../interfaces/services/IEncryptionService'
 import { RegisterUserDto } from '../dtos/user/register-user.dto'
 import { LoginUserDto } from '../dtos/user/login-user.dto'

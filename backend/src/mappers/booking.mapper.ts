@@ -4,7 +4,7 @@ import {
   PopulatedUserSummaryDto,
   PopulatedServiceSummaryDto,
 } from '../dtos/booking/booking-response.dto'
-import { PaginatedResult } from '../interfaces/ipagination'
+import { PaginatedResult } from '../interfaces/IPagination'
 
 export class BookingMapper {
   private static mapRef(field: any): any {

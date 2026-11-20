@@ -1,8 +1,8 @@
 import { Model, Types } from 'mongoose'
-import { ProviderServiceRepository } from '../interfaces/iprovider-service.repository'
+import { ProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
 import { MongooseBaseRepository } from './base.repository'
 import { IProviderService, ProviderServiceDocument } from '../models/provider-service.model'
-import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/ipagination'
+import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/IPagination'
 
 export class MongooseProviderServiceRepository
   extends MongooseBaseRepository<ProviderServiceDocument>

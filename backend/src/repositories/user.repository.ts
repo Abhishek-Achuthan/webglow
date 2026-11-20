@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import { IUser, UserDocument } from '../models/user.model';
-import { UserRepository } from '../interfaces/iuser.repository';
+import { UserRepository } from '../interfaces/IUserRepository';
 import { MongooseBaseRepository } from './base.repository';
 
 export class MongooseUserRepository

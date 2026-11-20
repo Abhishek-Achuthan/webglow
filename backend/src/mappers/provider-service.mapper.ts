@@ -4,7 +4,7 @@ import {
   ServiceLocationDto,
   ServiceAvailabilityDto,
 } from '../dtos/provider-service/provider-service-response.dto'
-import { PaginatedResult } from '../interfaces/ipagination'
+import { PaginatedResult } from '../interfaces/IPagination'
 
 export class ProviderServiceMapper {
   static toDto(doc: ProviderServiceDocument | IProviderService | any): ProviderServiceResponseDto {

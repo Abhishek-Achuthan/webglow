@@ -1,5 +1,5 @@
 import { BookingModel } from '../models/booking.model'
-import { BookingRepository } from '../interfaces/ibooking.repository'
+import { BookingRepository } from '../interfaces/IBookingRepository'
 import { MongooseBookingRepository } from '../repositories/booking.repository'
 import { IBookingService } from '../interfaces/services/IBookingService'
 import { BookingService } from '../services/booking.service'

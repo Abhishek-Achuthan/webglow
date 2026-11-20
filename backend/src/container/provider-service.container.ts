@@ -1,5 +1,5 @@
 import { ProviderServiceModel } from '../models/provider-service.model'
-import { ProviderServiceRepository } from '../interfaces/iprovider-service.repository'
+import { ProviderServiceRepository } from '../interfaces/IProviderServiceRepository'
 import { MongooseProviderServiceRepository } from '../repositories/provider-service.repository'
 import { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 import { ProviderServiceService } from '../services/provider-service.service'

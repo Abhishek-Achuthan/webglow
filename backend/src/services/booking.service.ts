@@ -1,5 +1,5 @@
 import { Types } from 'mongoose'
-import { BookingRepository } from '../interfaces/ibooking.repository'
+import { BookingRepository } from '../interfaces/IBookingRepository'
 import { BookingStatus } from '../models/booking.model'
 import { CreateBookingDto } from '../dtos/booking/create-booking.dto'
 import {
@@ -10,7 +10,7 @@ import {
 import type { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 import { AppError } from '../errors/AppError'
 import { ERRORS } from '../constants/errors.constant'
-import type { PaginatedResult } from '../interfaces/ipagination'
+import type { PaginatedResult } from '../interfaces/IPagination'
 import type { IBookingService, AvailableDatesResult } from '../interfaces/services/IBookingService'
 
 export class BookingService implements IBookingService {

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 import { AppError } from '../errors/AppError'
 import { ERRORS } from '../constants/errors.constant'
-import { JwtPayload } from '../interfaces/ijwt-payload'
+import { JwtPayload } from '../interfaces/IJwtPayload'
 
 export function jwtAuthMiddleware(
   req: Request,

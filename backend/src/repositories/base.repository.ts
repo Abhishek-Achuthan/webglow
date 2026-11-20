@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { BaseRepository } from '../interfaces/ibase.repository';
+import { BaseRepository } from '../interfaces/IBaseRepository';
 
 export abstract class MongooseBaseRepository<T> extends BaseRepository<T> {
   constructor(protected readonly model: Model<T>) {

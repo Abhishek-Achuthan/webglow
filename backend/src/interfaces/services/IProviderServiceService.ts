@@ -2,7 +2,7 @@ import type { ProviderServiceResponseDto } from '../../dtos/provider-service/pro
 import type { CreateProviderServiceDto } from '../../dtos/provider-service/create-provider-service.dto'
 import type { UpdateProviderServiceDto } from '../../dtos/provider-service/update-provider-service.dto'
 import type { ListServicesQueryDto } from '../../dtos/provider-service/list-services-query.dto'
-import type { PaginatedResult } from '../ipagination'
+import type { PaginatedResult } from '../IPagination'
 
 export interface IProviderServiceService {
   createService(

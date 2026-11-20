@@ -1,6 +1,6 @@
 import type { BookingResponseDto } from '../../dtos/booking/booking-response.dto'
 import type { CreateBookingDto } from '../../dtos/booking/create-booking.dto'
-import type { PaginatedResult } from '../ipagination'
+import type { PaginatedResult } from '../IPagination'
 
 export interface DateRange {
   start: string

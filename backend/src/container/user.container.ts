@@ -1,5 +1,5 @@
 import { UserModel } from '../models/user.model'
-import { UserRepository } from '../interfaces/iuser.repository'
+import { UserRepository } from '../interfaces/IUserRepository'
 import { MongooseUserRepository } from '../repositories/user.repository'
 import { IEncryptionService } from '../interfaces/services/IEncryptionService'
 import { EncryptionService } from '../services/encryption.service'
