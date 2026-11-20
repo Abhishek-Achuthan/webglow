@@ -1,15 +1,17 @@
 import { Request, Response, NextFunction } from 'express'
-import { BookingService } from '../services/booking.service'
+import { IBookingService } from '../interfaces/services/IBookingService'
 import { sendResponse } from '../helpers/response.helper'
 import { RESPONSE_MESSAGES } from '../constants/response-messages.constant'
 import { HTTP_STATUS } from '../constants/http-status.constant'
+import { createBookingSchema } from '../validators/booking.validator'
 
 export class BookingController {
-  constructor(private readonly service: BookingService) {}
+  constructor(private readonly service: IBookingService) {}
 
   createBooking = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.service.createBooking(req.user!.sub, req.body)
+      const validatedDto = createBookingSchema.parse(req.body)
+      const data = await this.service.createBooking(req.user!.sub, validatedDto)
       sendResponse(res, HTTP_STATUS.CREATED, RESPONSE_MESSAGES.BOOKING.CREATE_SUCCESS, data)
     } catch (err) {
       next(err)

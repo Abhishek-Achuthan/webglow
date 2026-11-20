@@ -1,16 +1,21 @@
 import { Request, Response, NextFunction } from 'express'
-import { ProviderServiceService } from '../services/provider-service.service'
+import { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 import { sendResponse } from '../helpers/response.helper'
 import { RESPONSE_MESSAGES } from '../constants/response-messages.constant'
-import { ListServicesQueryDto } from '../dtos/provider-service/list-services-query.dto'
 import { HTTP_STATUS } from '../constants/http-status.constant'
+import {
+  createProviderServiceSchema,
+  updateProviderServiceSchema,
+  listServicesQuerySchema,
+} from '../validators/provider-service.validator'
 
 export class ProviderServiceController {
-  constructor(private readonly service: ProviderServiceService) {}
+  constructor(private readonly service: IProviderServiceService) {}
 
   createService = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.service.createService(req.body, req.user!.sub)
+      const validatedDto = createProviderServiceSchema.parse(req.body)
+      const data = await this.service.createService(validatedDto, req.user!.sub)
       sendResponse(res, HTTP_STATUS.CREATED, RESPONSE_MESSAGES.PROVIDER_SERVICE.CREATE_SUCCESS, data)
     } catch (err) {
       next(err)
@@ -19,7 +24,8 @@ export class ProviderServiceController {
 
   getMyServices = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.service.getMyServices(req.user!.sub, req.query as unknown as ListServicesQueryDto)
+      const validatedQuery = listServicesQuerySchema.parse(req.query)
+      const data = await this.service.getMyServices(req.user!.sub, validatedQuery)
       sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.PROVIDER_SERVICE.MY_LIST_SUCCESS, data)
     } catch (err) {
       next(err)
@@ -28,7 +34,8 @@ export class ProviderServiceController {
 
   getAllServices = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.service.getAllServices(req.query as unknown as ListServicesQueryDto)
+      const validatedQuery = listServicesQuerySchema.parse(req.query)
+      const data = await this.service.getAllServices(validatedQuery)
       sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.PROVIDER_SERVICE.ADMIN_LIST_SUCCESS, data)
     } catch (err) {
       next(err)
@@ -37,7 +44,8 @@ export class ProviderServiceController {
 
   browseServices = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const data = await this.service.browseServices(req.query as unknown as ListServicesQueryDto)
+      const validatedQuery = listServicesQuerySchema.parse(req.query)
+      const data = await this.service.browseServices(validatedQuery)
       sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.PROVIDER_SERVICE.BROWSE_SUCCESS, data)
     } catch (err) {
       next(err)
@@ -67,7 +75,8 @@ export class ProviderServiceController {
   updateService = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = req.params as { id: string }
-      const data = await this.service.updateService(id, req.user!.sub, req.body)
+      const validatedDto = updateProviderServiceSchema.parse(req.body)
+      const data = await this.service.updateService(id, req.user!.sub, validatedDto)
       sendResponse(res, HTTP_STATUS.OK, RESPONSE_MESSAGES.PROVIDER_SERVICE.UPDATE_SUCCESS, data)
     } catch (err) {
       next(err)
