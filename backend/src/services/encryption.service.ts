@@ -1,6 +1,7 @@
 import * as bcrypt from 'bcrypt'
+import { IEncryptionService } from '../interfaces/services/IEncryptionService'
 
-export class EncryptionService {
+export class EncryptionService implements IEncryptionService {
   private readonly saltRounds = 10
 
   async hashPassword(password: string): Promise<string> {

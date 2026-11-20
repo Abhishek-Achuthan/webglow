@@ -1,22 +1,30 @@
 import { Types } from 'mongoose'
 import { ProviderServiceRepository } from '../interfaces/iprovider-service.repository'
 import { IProviderService } from '../models/provider-service.model'
-import { createProviderServiceSchema } from '../dtos/provider-service/create-provider-service.dto'
-import { updateProviderServiceSchema } from '../dtos/provider-service/update-provider-service.dto'
+import { CreateProviderServiceDto } from '../dtos/provider-service/create-provider-service.dto'
+import { UpdateProviderServiceDto } from '../dtos/provider-service/update-provider-service.dto'
 import { ListServicesQueryDto } from '../dtos/provider-service/list-services-query.dto'
+import {
+  ProviderServiceResponseDto,
+  toProviderServiceResponse,
+  toProviderServiceResponsePaginated,
+} from '../dtos/provider-service/provider-service-response.dto'
 import { AppError } from '../errors/AppError'
 import { ERRORS } from '../constants/errors.constant'
 import type { PaginatedResult, ServiceFilterOptions } from '../interfaces/ipagination'
+import type { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 
-export class ProviderServiceService {
+export class ProviderServiceService implements IProviderServiceService {
   constructor(private readonly _providerServiceRepo: ProviderServiceRepository) {}
 
-  async createService(dto: unknown, providerId: string): Promise<IProviderService> {
-    const parsed = createProviderServiceSchema.parse(dto)
-    const { availability, ...rest } = parsed
+  async createService(
+    dto: CreateProviderServiceDto,
+    providerId: string,
+  ): Promise<ProviderServiceResponseDto> {
+    const { availability, ...rest } = dto
 
     try {
-      return await this._providerServiceRepo.create({
+      const created = await this._providerServiceRepo.create({
         ...rest,
         location: { ...rest.location, type: rest.location.type ?? 'Point' },
         providerId: new Types.ObjectId(providerId),
@@ -27,12 +35,13 @@ export class ProviderServiceService {
           })),
         }),
       })
+      return toProviderServiceResponse(created)
     } catch (error) {
       throw new AppError(400, `${ERRORS.PROVIDER_SERVICE.CREATE_FAILED}: ${(error as Error).message}`)
     }
   }
 
-  async getServiceById(id: string, providerId: string): Promise<IProviderService> {
+  async getServiceById(id: string, providerId: string): Promise<ProviderServiceResponseDto> {
     const service = await this._providerServiceRepo.findById(id)
 
     if (!service) {
@@ -43,15 +52,17 @@ export class ProviderServiceService {
       throw new AppError(403, ERRORS.PROVIDER_SERVICE.NOT_FOUND)
     }
 
-    return service
+    return toProviderServiceResponse(service)
   }
 
-  async updateService(id: string, providerId: string, dto: unknown): Promise<IProviderService> {
-    const parsed = updateProviderServiceSchema.parse(dto)
-
+  async updateService(
+    id: string,
+    providerId: string,
+    dto: UpdateProviderServiceDto,
+  ): Promise<ProviderServiceResponseDto> {
     await this.getServiceById(id, providerId)
 
-    const { availability, ...rest } = parsed
+    const { availability, ...rest } = dto
     const updatePayload: Partial<IProviderService> = { ...rest } as Partial<IProviderService>
 
     if (availability !== undefined) {
@@ -66,7 +77,7 @@ export class ProviderServiceService {
       if (!updated) {
         throw new Error('Update returned null')
       }
-      return updated
+      return toProviderServiceResponse(updated)
     } catch (error) {
       if (error instanceof AppError) throw error
       throw new AppError(400, `${ERRORS.PROVIDER_SERVICE.UPDATE_FAILED}: ${(error as Error).message}`)
@@ -76,42 +87,49 @@ export class ProviderServiceService {
   async getMyServices(
     providerId: string,
     query: ListServicesQueryDto,
-  ): Promise<PaginatedResult<IProviderService>> {
+  ): Promise<PaginatedResult<ProviderServiceResponseDto>> {
     try {
-      return await this._providerServiceRepo.findServices(
+      const result = await this._providerServiceRepo.findServices(
         this._buildFilters(query, { providerId }),
       )
+      return toProviderServiceResponsePaginated(result)
     } catch (error) {
       throw new AppError(400, `${ERRORS.PROVIDER_SERVICE.LIST_FAILED}: ${(error as Error).message}`)
     }
   }
 
-  async getAllServices(query: ListServicesQueryDto): Promise<PaginatedResult<IProviderService>> {
+  async getAllServices(
+    query: ListServicesQueryDto,
+  ): Promise<PaginatedResult<ProviderServiceResponseDto>> {
     try {
-      return await this._providerServiceRepo.findServices(this._buildFilters(query))
+      const result = await this._providerServiceRepo.findServices(this._buildFilters(query))
+      return toProviderServiceResponsePaginated(result)
     } catch (error) {
       throw new AppError(400, `${ERRORS.PROVIDER_SERVICE.LIST_FAILED}: ${(error as Error).message}`)
     }
   }
 
-  async browseServices(query: ListServicesQueryDto): Promise<PaginatedResult<IProviderService>> {
+  async browseServices(
+    query: ListServicesQueryDto,
+  ): Promise<PaginatedResult<ProviderServiceResponseDto>> {
     try {
-      return await this._providerServiceRepo.findServices(
+      const result = await this._providerServiceRepo.findServices(
         this._buildFilters(query, { isActive: true }),
       )
+      return toProviderServiceResponsePaginated(result)
     } catch (error) {
       throw new AppError(400, `${ERRORS.PROVIDER_SERVICE.LIST_FAILED}: ${(error as Error).message}`)
     }
   }
 
-  async getBrowseServiceById(id: string): Promise<IProviderService> {
+  async getBrowseServiceById(id: string): Promise<ProviderServiceResponseDto> {
     const service = await this._providerServiceRepo.findById(id)
 
     if (!service || !service.isActive) {
       throw new AppError(404, ERRORS.PROVIDER_SERVICE.NOT_FOUND)
     }
 
-    return service
+    return toProviderServiceResponse(service)
   }
 
   private _buildFilters(

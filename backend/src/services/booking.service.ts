@@ -1,20 +1,26 @@
 import { Types } from 'mongoose'
 import { BookingRepository } from '../interfaces/ibooking.repository'
-import { BookingDocument, BookingStatus } from '../models/booking.model'
-import { createBookingSchema } from '../dtos/booking/create-booking.dto'
-import { ProviderServiceService } from './provider-service.service'
+import { BookingStatus } from '../models/booking.model'
+import { CreateBookingDto } from '../dtos/booking/create-booking.dto'
+import {
+  BookingResponseDto,
+  toBookingResponse,
+  toBookingResponsePaginated,
+} from '../dtos/booking/booking-response.dto'
+import type { IProviderServiceService } from '../interfaces/services/IProviderServiceService'
 import { AppError } from '../errors/AppError'
 import { ERRORS } from '../constants/errors.constant'
 import type { PaginatedResult } from '../interfaces/ipagination'
+import type { IBookingService, AvailableDatesResult } from '../interfaces/services/IBookingService'
 
-export class BookingService {
+export class BookingService implements IBookingService {
   constructor(
     private readonly _bookingRepo: BookingRepository,
-    private readonly _providerServiceService: ProviderServiceService,
+    private readonly _providerServiceService: IProviderServiceService,
   ) {}
 
-  async createBooking(userId: string, dto: unknown) {
-    const { serviceId, startDate: startDateStr, endDate: endDateStr } = createBookingSchema.parse(dto)
+  async createBooking(userId: string, dto: CreateBookingDto): Promise<BookingResponseDto> {
+    const { serviceId, startDate: startDateStr, endDate: endDateStr } = dto
 
     const startDate = new Date(startDateStr)
     const endDate = new Date(endDateStr)
@@ -31,7 +37,7 @@ export class BookingService {
 
     const service = await this._providerServiceService.getBrowseServiceById(serviceId)
 
-    if (service.providerId.toString() === userId) {
+    if (service.providerId === userId) {
       throw new AppError(403, ERRORS.BOOKING.SELF_BOOKING)
     }
 
@@ -60,10 +66,10 @@ export class BookingService {
     )
     const totalAmount = numberOfDays * service.pricePerDay
 
-    return this._bookingRepo.create({
+    const created = await this._bookingRepo.create({
       userId: new Types.ObjectId(userId),
       serviceId: new Types.ObjectId(serviceId),
-      providerId: service.providerId,
+      providerId: new Types.ObjectId(service.providerId),
       startDate,
       endDate,
       numberOfDays,
@@ -71,9 +77,11 @@ export class BookingService {
       totalAmount,
       status: BookingStatus.CONFIRMED,
     })
+
+    return toBookingResponse(created)
   }
 
-  async getAvailableDates(serviceId: string) {
+  async getAvailableDates(serviceId: string): Promise<AvailableDatesResult> {
     const service = await this._providerServiceService.getBrowseServiceById(serviceId)
     const activeBookings = await this._bookingRepo.findActiveByServiceId(serviceId)
 
@@ -97,53 +105,53 @@ export class BookingService {
     userId: string,
     page = 1,
     limit = 10,
-  ): Promise<PaginatedResult<BookingDocument>> {
+  ): Promise<PaginatedResult<BookingResponseDto>> {
     const { items, total } = await this._bookingRepo.findByUser(userId, page, limit)
     const totalPages = Math.ceil(total / limit)
 
-    return {
-      data: items,
+    return toBookingResponsePaginated({
+      items,
       total,
       page,
       limit,
       totalPages,
-    }
+    })
   }
 
   async getProviderBookings(
     providerId: string,
     page = 1,
     limit = 10,
-  ): Promise<PaginatedResult<BookingDocument>> {
+  ): Promise<PaginatedResult<BookingResponseDto>> {
     const { items, total } = await this._bookingRepo.findByProvider(providerId, page, limit)
     const totalPages = Math.ceil(total / limit)
 
-    return {
-      data: items,
+    return toBookingResponsePaginated({
+      items,
       total,
       page,
       limit,
       totalPages,
-    }
+    })
   }
 
   async getAllBookings(
     page = 1,
     limit = 10,
-  ): Promise<PaginatedResult<BookingDocument>> {
+  ): Promise<PaginatedResult<BookingResponseDto>> {
     const { items, total } = await this._bookingRepo.findAll(page, limit)
     const totalPages = Math.ceil(total / limit)
 
-    return {
-      data: items,
+    return toBookingResponsePaginated({
+      items,
       total,
       page,
       limit,
       totalPages,
-    }
+    })
   }
 
-  async cancelBooking(bookingId: string, userId: string) {
+  async cancelBooking(bookingId: string, userId: string): Promise<BookingResponseDto> {
     const booking = await this._bookingRepo.findById(bookingId)
 
     if (!booking) {
@@ -164,6 +172,11 @@ export class BookingService {
       throw new AppError(400, ERRORS.BOOKING.CANCEL_STARTED)
     }
 
-    return this._bookingRepo.cancel(bookingId)
+    const updated = await this._bookingRepo.cancel(bookingId)
+    if (!updated) {
+      throw new AppError(404, ERRORS.BOOKING.NOT_FOUND)
+    }
+
+    return toBookingResponse(updated)
   }
 }
